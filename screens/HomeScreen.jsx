@@ -2,8 +2,8 @@ import { FlatList, Text, View } from 'react-native'
 import { BottomSheet, FloatingButton, OptionIco, ScreenLayout, TodoCard, TodoForm } from '../components'
 import { styles } from '../styles/styles'
 import { useSharedValue, } from 'react-native-reanimated';
-import { useState } from 'react';
-import { writeTodo } from '../Firebase/provider';
+import { useEffect, useState } from 'react';
+import { readTodos, writeTodo } from '../Firebase/provider';
 
 export const HomeScreen = () => {
     const isOpen = useSharedValue(false);
@@ -23,6 +23,17 @@ export const HomeScreen = () => {
             [ ...todos, todo ]
         );
     }
+
+    useEffect(() => {
+
+        readTodos().then(snapshot => {
+            const dbTodos = Object.values(snapshot.val());
+
+            setTodos(dbTodos);
+        })
+
+    }, [])
+
 
     return (
         <>
