@@ -3,6 +3,7 @@ import { BottomSheet, FloatingButton, OptionIco, ScreenLayout, TodoCard, TodoFor
 import { styles } from '../styles/styles'
 import { useSharedValue, } from 'react-native-reanimated';
 import { useState } from 'react';
+import { writeTodo } from '../Firebase/provider';
 
 export const HomeScreen = () => {
     const isOpen = useSharedValue(false);
@@ -15,6 +16,9 @@ export const HomeScreen = () => {
 
     const addTodo = (todo) => {
         isOpen.set(false);
+
+        writeTodo(todo);
+
         setTodos(
             [ ...todos, todo ]
         );
