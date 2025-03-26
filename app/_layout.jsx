@@ -4,16 +4,14 @@ import { Stack } from 'expo-router';
 
 const StackLayout = () => {
     return (
-        <>
-            <GestureHandlerRootView>
-                <StatusBar style="light" />
-                <Stack
-                    screenOptions={ {
-                        headerShown: false
-                    } }
-                />
-            </GestureHandlerRootView>
-        </>
+        <GestureHandlerRootView>
+            <StatusBar style="light" />
+            <Stack
+                screenOptions={ {
+                    headerShown: false
+                } }
+            />
+        </GestureHandlerRootView>
     )
 }
 
