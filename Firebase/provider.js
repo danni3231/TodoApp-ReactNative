@@ -1,4 +1,4 @@
-import { ref, set, update, get, child } from 'firebase/database';
+import { ref, set, update, get, child, remove } from 'firebase/database';
 import { db } from './firebaseConfig';
 
 export const writeTodo = todo => {
@@ -23,6 +23,11 @@ export const updateTodo = todo => {
 		.catch(error => {
 			console.error('Error adding todo:', error);
 		});
+};
+
+export const removeTodo = id => {
+	const todoRef = ref(db, 'todos/' + id);
+	remove(todoRef);
 };
 
 export const readTodos = () => {

@@ -3,7 +3,7 @@ import { BottomSheet, FloatingButton, OptionIco, ScreenLayout, TodoCard, TodoFor
 import { styles } from '../styles/styles'
 import { useSharedValue, } from 'react-native-reanimated';
 import { useEffect, useState } from 'react';
-import { readTodos, writeTodo } from '../Firebase/provider';
+import { readTodos, removeTodo, writeTodo } from '../Firebase/provider';
 
 export const HomeScreen = () => {
     const isOpen = useSharedValue(false);
@@ -24,11 +24,17 @@ export const HomeScreen = () => {
         );
     }
 
+    const deleteTodo = (todoId) => {
+        const newTodos = todos.filter(todo => todo.id !== todoId);
+        setTodos(newTodos);
+        removeTodo(todoId);
+    }
+
+
     useEffect(() => {
 
         readTodos().then(snapshot => {
             const dbTodos = Object.values(snapshot.val());
-
             setTodos(dbTodos);
         })
 
@@ -56,7 +62,7 @@ export const HomeScreen = () => {
                     showsVerticalScrollIndicator={ false }
                     data={ todos }
                     keyExtractor={ item => item.id }
-                    renderItem={ ({ item }) => <TodoCard { ...item } /> }
+                    renderItem={ ({ item }) => <TodoCard deleteTodo={ deleteTodo } { ...item } /> }
                 />
 
                 <FloatingButton onPressed={ toggleSheet } />

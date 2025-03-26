@@ -10,3 +10,7 @@ export const FlagIco = (props) => <Ionicons name="flag" size={ 24 } color={ colo
 export const EllipsisIco = (props) => <Ionicons name="ellipsis-horizontal-sharp" size={ 24 } color={ colors.lilac } { ...props } />
 
 export const AddIco = (props) => <Ionicons name="add" size={ 24 } color={ colors.lilac } { ...props } />
+
+export const DeleteIco = (props) => <Ionicons name="trash-outline" size={ 24 } color={ colors.lilac } { ...props } />
+
+export const EditIco = (props) => <Ionicons name="pencil-outline" size={ 24 } color={ colors.lilac } { ...props } />

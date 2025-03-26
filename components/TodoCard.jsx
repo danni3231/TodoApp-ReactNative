@@ -1,8 +1,14 @@
-import { View, Text } from 'react-native'
-import { styles, todoCardStyles } from '../styles/styles'
-import { EllipsisIco, FlagIco, Separator } from './utils'
+import { View, Text, Pressable, Modal } from 'react-native'
+import { todoCardStyles, modalSyles, colors } from '../styles/styles'
+import { DeleteIco, EditIco, EllipsisIco, FlagIco, Separator } from './utils'
+import { useState } from 'react';
 
-export const TodoCard = ({ priority, task, date, time }) => {
+export const TodoCard = ({ priority, task, date, time, id, deleteTodo, editTodo }) => {
+    const [ modalVisible, setModalVisible ] = useState(false);
+
+    const changeVisibility = () => {
+        setModalVisible(!modalVisible);
+    }
 
     return (
         <View style={ todoCardStyles.container }>
@@ -12,7 +18,12 @@ export const TodoCard = ({ priority, task, date, time }) => {
                     <Text style={ todoCardStyles.priority }> { priority } </Text>
                 </View>
 
-                <EllipsisIco size={ 16 } />
+                <Pressable
+                    onPress={ changeVisibility }
+                >
+                    <EllipsisIco size={ 16 } />
+                </Pressable>
+
             </View>
             <View style={ todoCardStyles.content }>
                 <Text style={ todoCardStyles.task }> { task } </Text>
@@ -23,7 +34,27 @@ export const TodoCard = ({ priority, task, date, time }) => {
                 </View>
             </View>
 
-        </View>
+            <Pressable
+                onPressOut={ changeVisibility }
+                style={ modalVisible ? modalSyles.modalContent : modalSyles.hide }
+            >
+                <Pressable
+                    onPress={ () => editTodo(id) }
+                    style={ modalSyles.rowContent }
+                >
+                    <EditIco />
+                    <Text style={ modalSyles.text }>Edit</Text>
+                </Pressable>
+                <Pressable
+                    onPress={ () => deleteTodo(id) }
+                    style={ modalSyles.rowContent }
+                >
+                    <DeleteIco color={ colors.red } />
+                    <Text style={ modalSyles.textDelete }>Delete</Text>
+                </Pressable>
+            </Pressable>
+
+        </View >
     )
 }
 
