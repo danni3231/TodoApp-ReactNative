@@ -1,12 +1,23 @@
 import { Pressable, Text, TextInput, View } from 'react-native'
 import { styles } from '../styles/styles'
 import { Picker } from '@react-native-picker/picker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export const TodoForm = ({ onSubmit }) => {
+export const TodoForm = ({ onSubmit, type, todoToUpdate }) => {
     const [ task, setTask ] = useState('');
     const [ priority, setPriority ] = useState('High: 1');
     const [ formValid, setFormValid ] = useState(true)
+
+    useEffect(() => {
+        if (type === 'EDIT') {
+            setTask(todoToUpdate.task)
+            setPriority(todoToUpdate.priority)
+        } else {
+            setTask('')
+            setPriority('High: 1')
+        }
+    }, [ type, todoToUpdate ])
+
 
     const validatetask = () => {
         if (task.trim().length === 0) {
@@ -14,24 +25,42 @@ export const TodoForm = ({ onSubmit }) => {
             return
         }
 
-        const date = new Date();
+        switch (type) {
+            case 'ADD':
+                const date = new Date();
 
-        onSubmit({
-            task,
-            priority,
-            date: date.toLocaleDateString([], { timeZone: 'America/Bogota' }),
-            time: date.toLocaleTimeString([], { timeZone: 'America/Bogota', timeStyle: 'short' }),
-            id: Date.now(),
-        })
+                onSubmit({
+                    task,
+                    priority,
+                    date: date.toLocaleDateString([], { timeZone: 'America/Bogota' }),
+                    time: date.toLocaleTimeString([], { timeZone: 'America/Bogota', timeStyle: 'short' }),
+                    id: Date.now(),
+                })
+
+                break;
+
+            case 'EDIT':
+                onSubmit({
+                    task,
+                    priority,
+                    date: todoToUpdate.date,
+                    time: todoToUpdate.time,
+                    id: todoToUpdate.id,
+                })
+
+                break;
+
+        }
 
         setFormValid(true)
         setTask('')
+        setPriority('High: 1')
     }
 
     return (
         <>
             <Text style={ styles.title }>
-                Add new task
+                { (type === 'ADD') ? 'Add new task' : 'Edit task' }
             </Text>
             <TextInput
                 style={ styles.input }
@@ -58,7 +87,9 @@ export const TodoForm = ({ onSubmit }) => {
                 style={ styles.button }
                 onPress={ validatetask }
             >
-                <Text style={ styles.buttonText }>Add Task</Text>
+                <Text style={ styles.buttonText }>
+                    { (type === 'ADD') ? 'Add Task' : 'Update Task' }
+                </Text>
             </Pressable>
 
             { !formValid && <Text> Please fill in all fields </Text> }

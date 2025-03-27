@@ -6,19 +6,7 @@ export const writeTodo = todo => {
 
 	set(todoRef, todo)
 		.then(() => {
-			console.log('Todo added successfully:', todo);
-		})
-		.catch(error => {
-			console.error('Error adding todo:', error);
-		});
-};
-
-export const updateTodo = todo => {
-	const todoRef = ref(db, 'todos/' + todo.id);
-
-	update(todoRef, todo)
-		.then(() => {
-			console.log('Todo updated successfully:', todo);
+			console.log('Todo write successfully:', todo);
 		})
 		.catch(error => {
 			console.error('Error adding todo:', error);

@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Modal } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import { todoCardStyles, modalSyles, colors } from '../styles/styles'
 import { DeleteIco, EditIco, EllipsisIco, FlagIco, Separator } from './utils'
 import { useState } from 'react';
@@ -40,6 +40,7 @@ export const TodoCard = ({ priority, task, date, time, id, deleteTodo, editTodo 
             >
                 <Pressable
                     onPress={ () => editTodo(id) }
+                    onPressOut={ changeVisibility }
                     style={ modalSyles.rowContent }
                 >
                     <EditIco />
@@ -47,6 +48,7 @@ export const TodoCard = ({ priority, task, date, time, id, deleteTodo, editTodo 
                 </Pressable>
                 <Pressable
                     onPress={ () => deleteTodo(id) }
+                    onPressOut={ changeVisibility }
                     style={ modalSyles.rowContent }
                 >
                     <DeleteIco color={ colors.red } />
