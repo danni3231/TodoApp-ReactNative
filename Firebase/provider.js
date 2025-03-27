@@ -1,25 +1,38 @@
-import { ref, set, update, get, child, remove } from 'firebase/database';
+import { ref, set, get, child, remove } from 'firebase/database';
 import { db } from './firebaseConfig';
 
-export const writeTodo = todo => {
+export const uploadTodo = async todo => {
 	const todoRef = ref(db, 'todos/' + todo.id);
 
-	set(todoRef, todo)
+	console.log(todoRef);
+
+	await set(todoRef, todo)
 		.then(() => {
-			console.log('Todo write successfully:', todo);
+			console.log('Todo added successfully:', todo);
 		})
 		.catch(error => {
 			console.error('Error adding todo:', error);
 		});
 };
 
-export const removeTodo = id => {
+export const removeTodo = async id => {
 	const todoRef = ref(db, 'todos/' + id);
-	remove(todoRef);
+	await remove(todoRef);
 };
 
-export const readTodos = () => {
+export const getTodos = async () => {
 	const dbRef = ref(db);
 
-	return get(child(dbRef, 'todos'));
+	let todos = [];
+
+	await get(child(dbRef, 'todos'))
+		.then(snapshot => {
+			const dbTodos = Object.values(snapshot.val());
+			todos = dbTodos;
+		})
+		.catch(error => {
+			console.error('Error getting todos:', error);
+		});
+
+	return todos;
 };

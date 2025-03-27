@@ -2,12 +2,17 @@ import { FlatList, Text, View } from 'react-native'
 import { BottomSheet, FloatingButton, OptionIco, ScreenLayout, TodoCard, TodoForm } from '../components'
 import { styles } from '../styles/styles'
 import { useSharedValue, } from 'react-native-reanimated';
-import { use, useEffect, useState } from 'react';
-import { readTodos, removeTodo, writeTodo } from '../Firebase/provider';
+import { useEffect, useState } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux'
+import { startSetTodos, startAddTodo, startUpdateTodo, startDeleteTodo } from '../store/todos/thunks';
 
 export const HomeScreen = () => {
+
+    const dispatch = useDispatch();
+    const { todos } = useSelector(state => state.todos);
+
     const [ sheetType, setSheetType ] = useState('') // set sheet type: 'ADD' or 'EDIT' 
-    const [ todos, setTodos ] = useState([])
     const [ todoToUpdate, setTodoToUpdate ] = useState({})
 
     const sheetIsOpen = useSharedValue(false);
@@ -27,54 +32,27 @@ export const HomeScreen = () => {
         toogleSheet();
     }
 
-    //todo: make redux
-
-    const addTodo = (todo) => {
-        toogleSheet()
-
-        writeTodo(todo);
-
-        setTodos(
-            [ ...todos, todo ]
-        );
-    }
-
-    const deleteTodo = (todoId) => {
-        const newTodos = todos.filter(todo => todo.id !== todoId);
-        setTodos(newTodos);
-        removeTodo(todoId);
-    }
-
-    const updateTodo = (todo) => {
-        toogleSheet()
-
-        writeTodo(todo);
-
-        setTodos(
-            todos.map(item => item.id === todo.id ? todo : item)
-        );
-
+    const onDelete = (todoId) => {
+        dispatch(startDeleteTodo(todoId));
     }
 
     const onSubmit = (todo) => {
+        toogleSheet()
+
         switch (sheetType) {
             case 'ADD':
-                addTodo(todo);
+                dispatch(startAddTodo(todo))
+
                 break;
 
             case 'EDIT':
-                updateTodo(todo);
+                dispatch(startUpdateTodo(todo))
                 break;
         }
     }
 
     useEffect(() => {
-
-        readTodos().then(snapshot => {
-            const dbTodos = Object.values(snapshot.val());
-            setTodos(dbTodos);
-        })
-
+        dispatch(startSetTodos())
     }, [])
 
 
@@ -99,7 +77,7 @@ export const HomeScreen = () => {
                     showsVerticalScrollIndicator={ false }
                     data={ todos }
                     keyExtractor={ item => item.id }
-                    renderItem={ ({ item }) => <TodoCard deleteTodo={ deleteTodo } editTodo={ toogleUpdate } { ...item } /> }
+                    renderItem={ ({ item }) => <TodoCard deleteTodo={ onDelete } editTodo={ toogleUpdate } { ...item } /> }
                 />
 
                 <FloatingButton onPressed={ toogleAdd } />
