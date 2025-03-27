@@ -3,11 +3,24 @@ import { todoCardStyles, modalSyles, colors } from '../styles/styles'
 import { DeleteIco, EditIco, EllipsisIco, FlagIco, Separator } from './utils'
 import { useState } from 'react';
 
-export const TodoCard = ({ priority, task, date, time, id, deleteTodo, editTodo }) => {
+import { useDispatch } from 'react-redux';
+import { setFormType, setTodoRef, toggleSheetIsOpen } from '../store/form/formSlice';
+import { startDeleteTodo } from '../store/todos/thunks';
+
+export const TodoCard = ({ priority, task, date, time, id }) => {
+    const dispatch = useDispatch();
+
     const [ modalVisible, setModalVisible ] = useState(false);
 
     const changeVisibility = () => {
         setModalVisible(!modalVisible);
+    }
+
+    const onUpdate = () => {
+        const todo = { priority, task, date, time, id }
+        dispatch(setFormType('EDIT'))
+        dispatch(setTodoRef(todo))
+        dispatch(toggleSheetIsOpen())
     }
 
     return (
@@ -39,7 +52,7 @@ export const TodoCard = ({ priority, task, date, time, id, deleteTodo, editTodo 
                 style={ modalVisible ? modalSyles.modalContent : modalSyles.hide }
             >
                 <Pressable
-                    onPress={ () => editTodo(id) }
+                    onPress={ onUpdate }
                     onPressOut={ changeVisibility }
                     style={ modalSyles.rowContent }
                 >
@@ -47,7 +60,7 @@ export const TodoCard = ({ priority, task, date, time, id, deleteTodo, editTodo 
                     <Text style={ modalSyles.text }>Edit</Text>
                 </Pressable>
                 <Pressable
-                    onPress={ () => deleteTodo(id) }
+                    onPress={ () => dispatch(startDeleteTodo(id)) }
                     onPressOut={ changeVisibility }
                     style={ modalSyles.rowContent }
                 >

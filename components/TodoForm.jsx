@@ -1,66 +1,71 @@
 import { Pressable, Text, TextInput, View } from 'react-native'
 import { styles } from '../styles/styles'
 import { Picker } from '@react-native-picker/picker';
-import { useEffect, useState } from 'react';
 
-export const TodoForm = ({ onSubmit, type, todoToUpdate }) => {
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { startAddTodo, startUpdateTodo } from '../store/todos/thunks';
+import { toggleSheetIsOpen } from '../store/form/formSlice';
+
+export const TodoForm = () => {
+    const dispatch = useDispatch();
+    const { formType, todoRef } = useSelector(state => state.form);
+
     const [ task, setTask ] = useState('');
     const [ priority, setPriority ] = useState('High: 1');
     const [ formValid, setFormValid ] = useState(true)
 
-    useEffect(() => {
-        if (type === 'EDIT') {
-            setTask(todoToUpdate.task)
-            setPriority(todoToUpdate.priority)
-        } else {
-            setTask('')
-            setPriority('High: 1')
-        }
-    }, [ type, todoToUpdate ])
-
-
-    const validatetask = () => {
+    const onSubmit = () => {
         if (task.trim().length === 0) {
             setFormValid(false)
             return
         }
 
-        switch (type) {
+        let todo = {}
+
+        switch (formType) {
             case 'ADD':
                 const date = new Date();
-
-                onSubmit({
+                todo = {
                     task,
                     priority,
                     date: date.toLocaleDateString([], { timeZone: 'America/Bogota' }),
                     time: date.toLocaleTimeString([], { timeZone: 'America/Bogota', timeStyle: 'short' }),
                     id: Date.now(),
-                })
+                }
+                dispatch(startAddTodo(todo))
 
                 break;
 
             case 'EDIT':
-                onSubmit({
+                todo = {
+                    ...todoRef,
                     task,
                     priority,
-                    date: todoToUpdate.date,
-                    time: todoToUpdate.time,
-                    id: todoToUpdate.id,
-                })
-
+                }
+                dispatch(startUpdateTodo(todo))
                 break;
-
         }
 
         setFormValid(true)
-        setTask('')
-        setPriority('High: 1')
+        dispatch(toggleSheetIsOpen())
     }
+
+
+    useEffect(() => {
+        if (formType === 'EDIT') {
+            setTask(todoRef.task)
+            setPriority(todoRef.priority)
+        } else {
+            setTask('')
+            setPriority('High: 1')
+        }
+    }, [ formType, todoRef ])
 
     return (
         <>
             <Text style={ styles.title }>
-                { (type === 'ADD') ? 'Add new task' : 'Edit task' }
+                { (formType === 'ADD') ? 'Add new task' : 'Edit task' }
             </Text>
             <TextInput
                 style={ styles.input }
@@ -73,7 +78,7 @@ export const TodoForm = ({ onSubmit, type, todoToUpdate }) => {
                 <Picker
                     style={ styles.picker }
                     selectedValue={ priority }
-                    onValueChange={ (itemValue, itemIndex) =>
+                    onValueChange={ (itemValue) =>
                         setPriority(itemValue)
                     }
                 >
@@ -85,10 +90,10 @@ export const TodoForm = ({ onSubmit, type, todoToUpdate }) => {
 
             <Pressable
                 style={ styles.button }
-                onPress={ validatetask }
+                onPress={ onSubmit }
             >
                 <Text style={ styles.buttonText }>
-                    { (type === 'ADD') ? 'Add Task' : 'Update Task' }
+                    { (formType === 'ADD') ? 'Add Task' : 'Update Task' }
                 </Text>
             </Pressable>
 

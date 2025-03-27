@@ -1,60 +1,24 @@
 import { FlatList, Text, View } from 'react-native'
 import { BottomSheet, FloatingButton, OptionIco, ScreenLayout, TodoCard, TodoForm } from '../components'
 import { styles } from '../styles/styles'
-import { useSharedValue, } from 'react-native-reanimated';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { startSetTodos, startAddTodo, startUpdateTodo, startDeleteTodo } from '../store/todos/thunks';
+import { startSetTodos } from '../store/todos/thunks';
+import { toggleSheetIsOpen } from '../store/form/formSlice';
 
 export const HomeScreen = () => {
-
     const dispatch = useDispatch();
     const { todos } = useSelector(state => state.todos);
 
-    const [ sheetType, setSheetType ] = useState('') // set sheet type: 'ADD' or 'EDIT' 
-    const [ todoToUpdate, setTodoToUpdate ] = useState({})
-
-    const sheetIsOpen = useSharedValue(false);
-
-    const toogleSheet = () => {
-        sheetIsOpen.value = !sheetIsOpen.value;
-    };
-
-    const toogleUpdate = (id) => {
-        setSheetType('EDIT');
-        setTodoToUpdate(todos.find(todo => todo.id === id))
-        toogleSheet();
-    }
-
-    const toogleAdd = () => {
-        setSheetType('ADD');
-        toogleSheet();
-    }
-
-    const onDelete = (todoId) => {
-        dispatch(startDeleteTodo(todoId));
-    }
-
-    const onSubmit = (todo) => {
-        toogleSheet()
-
-        switch (sheetType) {
-            case 'ADD':
-                dispatch(startAddTodo(todo))
-
-                break;
-
-            case 'EDIT':
-                dispatch(startUpdateTodo(todo))
-                break;
-        }
+    const onAdd = () => {
+        dispatch(setFormType('ADD'))
+        dispatch(toggleSheetIsOpen())
     }
 
     useEffect(() => {
         dispatch(startSetTodos())
     }, [])
-
 
     return (
         <>
@@ -77,22 +41,15 @@ export const HomeScreen = () => {
                     showsVerticalScrollIndicator={ false }
                     data={ todos }
                     keyExtractor={ item => item.id }
-                    renderItem={ ({ item }) => <TodoCard deleteTodo={ onDelete } editTodo={ toogleUpdate } { ...item } /> }
+                    renderItem={ ({ item }) => <TodoCard { ...item } /> }
                 />
 
-                <FloatingButton onPressed={ toogleAdd } />
+                <FloatingButton onPressed={ onAdd } />
 
             </ScreenLayout >
 
-            <BottomSheet
-                isOpen={ sheetIsOpen }
-                toggleSheet={ toogleSheet }
-            >
-                <TodoForm
-                    type={ sheetType }
-                    todoToUpdate={ todoToUpdate }
-                    onSubmit={ onSubmit }
-                />
+            <BottomSheet >
+                <TodoForm />
             </BottomSheet>
         </>
     )
