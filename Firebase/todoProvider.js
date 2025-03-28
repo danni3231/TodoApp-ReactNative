@@ -1,10 +1,8 @@
 import { ref, set, get, child, remove } from 'firebase/database';
-import { db } from './firebaseConfig';
+import { FirebaseDB } from './firebaseConfig';
 
 export const uploadTodo = async todo => {
-	const todoRef = ref(db, 'todos/' + todo.id);
-
-	console.log(todoRef);
+	const todoRef = ref(FirebaseDB, 'todos/' + todo.id);
 
 	await set(todoRef, todo)
 		.then(() => {
@@ -16,12 +14,12 @@ export const uploadTodo = async todo => {
 };
 
 export const removeTodo = async id => {
-	const todoRef = ref(db, 'todos/' + id);
+	const todoRef = ref(FirebaseDB, 'todos/' + id);
 	await remove(todoRef);
 };
 
 export const getTodos = async () => {
-	const dbRef = ref(db);
+	const dbRef = ref(FirebaseDB);
 
 	let todos = [];
 

@@ -11,12 +11,12 @@ import Animated, {
 import { bottomSheetStyles } from '../../styles/styles';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleSheetIsOpen } from '../../store/form/formSlice';
+import { toggleSheetIsOpen } from '../../store/todoForm/todoFormSlice';
 
 export function BottomSheet ({ /*isOpen, toggleSheet,*/ duration = 500, children }) {
 
     const dispatch = useDispatch();
-    const { sheetIsOpen } = useSelector(state => state.form);
+    const { sheetIsOpen } = useSelector(state => state.todoForm);
 
     const height = useSharedValue(0);
 

@@ -1,13 +1,19 @@
-import { FlatList, Text, View } from 'react-native'
-import { BottomSheet, FloatingButton, OptionIco, ScreenLayout, TodoCard, TodoForm } from '../components'
-import { styles } from '../styles/styles'
 import { useEffect } from 'react';
-
+import { FlatList, Pressable, Text, View } from 'react-native'
+import { Link, router } from 'expo-router';
 import { useSelector, useDispatch } from 'react-redux'
+
+import { BottomSheet, FloatingButton, ScreenLayout, TodoCard, TodoForm, UserIco } from '../components'
+import { styles } from '../styles/styles'
+
 import { startSetTodos } from '../store/todos/thunks';
-import { toggleSheetIsOpen } from '../store/form/formSlice';
+import { setFormType, toggleSheetIsOpen } from '../store/todoForm/todoFormSlice';
+import { useCheckAuth } from '../hooks/useCheckAuth';
+
 
 export const HomeScreen = () => {
+    const status = useCheckAuth()
+
     const dispatch = useDispatch();
     const { todos } = useSelector(state => state.todos);
 
@@ -17,6 +23,9 @@ export const HomeScreen = () => {
     }
 
     useEffect(() => {
+        if (status === 'not-authenticated') {
+            router.replace('/auth');
+        }
         dispatch(startSetTodos())
     }, [])
 
@@ -33,7 +42,13 @@ export const HomeScreen = () => {
                         </Text>
                     </View>
 
-                    <OptionIco size={ 32 } />
+                    <Link href={ '/profile' } asChild>
+                        <Pressable>
+                            <UserIco size={ 32 } />
+                        </Pressable>
+                    </Link>
+
+
                 </View>
 
                 <FlatList

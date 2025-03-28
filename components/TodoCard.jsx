@@ -4,7 +4,7 @@ import { DeleteIco, EditIco, EllipsisIco, FlagIco, Separator } from './utils'
 import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { setFormType, setTodoRef, toggleSheetIsOpen } from '../store/form/formSlice';
+import { setFormType, setTodoRef, toggleSheetIsOpen } from '../store/todoForm/todoFormSlice';
 import { startDeleteTodo } from '../store/todos/thunks';
 
 export const TodoCard = ({ priority, task, date, time, id }) => {

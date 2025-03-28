@@ -39,6 +39,13 @@ export const styles = StyleSheet.create({
 		color: colors.timberWolf,
 		fontSize: 14,
 	},
+	textUnderline: {
+		textDecorationLine: 'underline',
+		color: colors.lilac,
+	},
+	textCenter: {
+		textAlign: 'center',
+	},
 	separator: {
 		height: 1,
 		width: '90%',
@@ -58,6 +65,7 @@ export const styles = StyleSheet.create({
 	},
 	input: {
 		width: '100%',
+		backgroundColor: colors.cultured,
 		padding: 12,
 		borderRadius: 8,
 		borderColor: colors.lilac,
@@ -202,5 +210,24 @@ export const modalSyles = StyleSheet.create({
 	textDelete: {
 		...styles.text,
 		color: colors.red,
+	},
+});
+
+export const authStyles = StyleSheet.create({
+	authContainer: {
+		flex: 1,
+		width: '100%',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingBottom: 24,
+	},
+	formContainer: {
+		width: '100%',
+		gap: 40,
+	},
+	buttonContainer: {
+		width: '100%',
+		alignItems: 'center',
+		gap: 12,
 	},
 });

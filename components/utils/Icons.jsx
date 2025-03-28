@@ -14,3 +14,5 @@ export const AddIco = (props) => <Ionicons name="add" size={ 24 } color={ colors
 export const DeleteIco = (props) => <Ionicons name="trash-outline" size={ 24 } color={ colors.lilac } { ...props } />
 
 export const EditIco = (props) => <Ionicons name="pencil-outline" size={ 24 } color={ colors.lilac } { ...props } />
+
+export const UserIco = (props) => <Ionicons name="person-circle-outline" size={ 24 } color={ colors.lilac } { ...props } />

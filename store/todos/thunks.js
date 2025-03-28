@@ -1,4 +1,4 @@
-import { removeTodo, getTodos, uploadTodo } from '../../Firebase/provider';
+import { removeTodo, getTodos, uploadTodo } from '../../Firebase/todoProvider';
 import { addTodo, deleteTodo, setTodo, updateTodo } from './todoSlice';
 
 export const startSetTodos = () => {

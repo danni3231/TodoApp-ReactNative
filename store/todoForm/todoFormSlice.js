@@ -9,7 +9,6 @@ export const formSlice = createSlice({
 	},
 	reducers: {
 		setFormType: (state, { payload }) => {
-			console.log(payload);
 			state.formType = payload;
 		},
 		setTodoRef: (state, { payload }) => {

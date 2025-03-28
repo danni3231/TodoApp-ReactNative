@@ -5,11 +5,11 @@ import { Picker } from '@react-native-picker/picker';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { startAddTodo, startUpdateTodo } from '../store/todos/thunks';
-import { toggleSheetIsOpen } from '../store/form/formSlice';
+import { toggleSheetIsOpen } from '../store/todoForm/todoFormSlice';
 
 export const TodoForm = () => {
     const dispatch = useDispatch();
-    const { formType, todoRef } = useSelector(state => state.form);
+    const { formType, todoRef } = useSelector(state => state.todoForm);
 
     const [ task, setTask ] = useState('');
     const [ priority, setPriority ] = useState('High: 1');
