@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native'
-import { Link, router } from 'expo-router';
+import { Link } from 'expo-router';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { BottomSheet, FloatingButton, ScreenLayout, TodoCard, TodoForm, UserIco } from '../components'
@@ -8,12 +8,9 @@ import { styles } from '../styles/styles'
 
 import { startSetTodos } from '../store/todos/thunks';
 import { setFormType, toggleSheetIsOpen } from '../store/todoForm/todoFormSlice';
-import { useCheckAuth } from '../hooks/useCheckAuth';
-
+import { LoadingScreen } from '../components/utils/LoadingScreen';
 
 export const HomeScreen = () => {
-    const status = useCheckAuth()
-
     const dispatch = useDispatch();
     const { todos } = useSelector(state => state.todos);
 
@@ -23,9 +20,6 @@ export const HomeScreen = () => {
     }
 
     useEffect(() => {
-        if (status === 'not-authenticated') {
-            router.replace('/auth');
-        }
         dispatch(startSetTodos())
     }, [])
 
@@ -51,15 +45,21 @@ export const HomeScreen = () => {
 
                 </View>
 
-                <FlatList
-                    contentContainerStyle={ styles.flatlistContainer }
-                    showsVerticalScrollIndicator={ false }
-                    data={ todos }
-                    keyExtractor={ item => item.id }
-                    renderItem={ ({ item }) => <TodoCard { ...item } /> }
-                />
+                {
+                    todos.length === 0 ?
+                        <LoadingScreen />
+                        :
+                        <FlatList
+                            contentContainerStyle={ styles.flatlistContainer }
+                            showsVerticalScrollIndicator={ false }
+                            data={ todos }
+                            keyExtractor={ item => item.id }
+                            renderItem={ ({ item }) => <TodoCard { ...item } /> }
+                        />
+                }
 
                 <FloatingButton onPressed={ onAdd } />
+
 
             </ScreenLayout >
 

@@ -22,8 +22,6 @@ export const startCreatingUserWithEmailPassword = ({
 
 		if (!ok) return dispatch(logout({ errorMessage }));
 
-		console.log(ok);
-
 		await dispatch(login({ uid, displayName, email, photoURL }));
 		router.replace('/');
 	};
@@ -32,8 +30,6 @@ export const startCreatingUserWithEmailPassword = ({
 export const startLoginWithEmailPassword = ({ email, password }) => {
 	return async dispatch => {
 		//dispatch(checkingCredentials());
-
-		console.log(email);
 
 		const { ok, uid, displayName, photoURL, errorMessage } =
 			await loginWithEmailPassword({ email, password });
