@@ -1,10 +1,17 @@
 import { removeTodo, getTodos, uploadTodo } from '../../Firebase/todoProvider';
-import { addTodo, deleteTodo, setTodo, updateTodo } from './todoSlice';
+import {
+	addTodo,
+	deleteTodo,
+	setTodos,
+	updateTodo,
+	checkingTodos,
+} from './todoSlice';
 
 export const startSetTodos = () => {
 	return async dispatch => {
+		dispatch(checkingTodos());
 		const todos = await getTodos();
-		dispatch(setTodo(todos));
+		dispatch(setTodos(todos));
 	};
 };
 

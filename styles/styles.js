@@ -20,6 +20,13 @@ export const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 20,
 	},
+	containerCenter: {
+		flex: 1,
+		width: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginBottom: 24,
+	},
 	row: {
 		width: '100%',
 		flexDirection: 'row',

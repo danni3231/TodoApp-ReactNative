@@ -4,14 +4,14 @@ import {
 	logoutFirebaseAuth,
 	registerUserWithEmailPassword,
 } from '../../Firebase/authProviders';
-import { login, logout } from './authSlice';
+import { checkingCredentials, login, logout } from './authSlice';
 export const startCreatingUserWithEmailPassword = ({
 	email,
 	password,
 	displayName,
 }) => {
 	return async dispatch => {
-		//dispatch(checkingCredentials());
+		dispatch(checkingCredentials());
 
 		const { ok, uid, photoURL, errorMessage } =
 			await registerUserWithEmailPassword({
@@ -29,7 +29,7 @@ export const startCreatingUserWithEmailPassword = ({
 
 export const startLoginWithEmailPassword = ({ email, password }) => {
 	return async dispatch => {
-		//dispatch(checkingCredentials());
+		dispatch(checkingCredentials());
 
 		const { ok, uid, displayName, photoURL, errorMessage } =
 			await loginWithEmailPassword({ email, password });

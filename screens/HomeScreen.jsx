@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native'
 import { Link } from 'expo-router';
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,7 +12,9 @@ import { LoadingScreen } from '../components/utils/LoadingScreen';
 
 export const HomeScreen = () => {
     const dispatch = useDispatch();
-    const { todos } = useSelector(state => state.todos);
+    const { todos, status } = useSelector(state => state.todos);
+
+    const isCheckingTodos = useMemo(() => status === 'checking', [ status ])
 
     const onAdd = () => {
         dispatch(setFormType('ADD'))
@@ -41,25 +43,28 @@ export const HomeScreen = () => {
                             <UserIco size={ 32 } />
                         </Pressable>
                     </Link>
-
-
                 </View>
 
                 {
-                    todos.length === 0 ?
+                    isCheckingTodos ?
                         <LoadingScreen />
                         :
                         <FlatList
-                            contentContainerStyle={ styles.flatlistContainer }
+                            contentContainerStyle={
+                                todos.length === 0 ?
+                                    styles.containerCenter
+                                    :
+                                    styles.flatlistContainer
+                            }
                             showsVerticalScrollIndicator={ false }
                             data={ todos }
                             keyExtractor={ item => item.id }
                             renderItem={ ({ item }) => <TodoCard { ...item } /> }
+                            ListEmptyComponent={ <Text style={ styles.text }>Your to-do list is empty, Add a new todo now</Text> }
                         />
                 }
 
                 <FloatingButton onPressed={ onAdd } />
-
 
             </ScreenLayout >
 

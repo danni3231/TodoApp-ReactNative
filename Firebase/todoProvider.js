@@ -25,8 +25,10 @@ export const getTodos = async () => {
 
 	await get(child(dbRef, 'todos'))
 		.then(snapshot => {
-			const dbTodos = Object.values(snapshot.val());
-			todos = dbTodos;
+			if (snapshot.exists()) {
+				const dbTodos = Object.values(snapshot.val());
+				todos = dbTodos;
+			}
 		})
 		.catch(error => {
 			console.error('Error getting todos:', error);

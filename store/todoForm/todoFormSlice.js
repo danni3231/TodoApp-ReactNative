@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const formSlice = createSlice({
+export const todoFormSlice = createSlice({
 	name: 'form',
 	initialState: {
 		formType: '',
@@ -21,4 +21,5 @@ export const formSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setFormType, setTodoRef, toggleSheetIsOpen } = formSlice.actions;
+export const { setFormType, setTodoRef, toggleSheetIsOpen } =
+	todoFormSlice.actions;

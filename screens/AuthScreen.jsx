@@ -2,21 +2,29 @@ import { Pressable, Text, View } from 'react-native'
 import { ScreenLayout } from '../components'
 import { authStyles, styles } from '../styles/styles'
 import { TextInput } from 'react-native-gesture-handler'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { startCreatingUserWithEmailPassword, startLoginWithEmailPassword } from '../store/auth/thunks'
 
 export const AuthScreen = () => {
     const dispatch = useDispatch();
+    const { status } = useSelector(state => state.auth)
+
+    const isCheckingAuth = useMemo(() => status === 'checking', [ status ])
 
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const [ displayName, setDisplayName ] = useState('')
 
     const [ type, setType ] = useState('login')
+    const [ showPassword, setShowPassword ] = useState(false)
 
     const toggleType = () => {
         setType(type === 'login' ? 'signup' : 'login')
+    }
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
     }
 
     const onSubmit = () => {
@@ -68,7 +76,6 @@ export const AuthScreen = () => {
                             />
                         }
 
-
                         <TextInput
                             style={ styles.input }
                             placeholder='Email Address'
@@ -77,6 +84,7 @@ export const AuthScreen = () => {
                         />
 
                         <TextInput
+                            secureTextEntry={ !showPassword }
                             style={ styles.input }
                             placeholder='password'
                             value={ password }
@@ -89,8 +97,9 @@ export const AuthScreen = () => {
                     <Pressable
                         style={ styles.button }
                         onPress={ onSubmit }
+                        disabled={ isCheckingAuth }
                     >
-                        <Text style={ styles.buttonText }>Login</Text>
+                        <Text style={ styles.buttonText }>{ type === 'login' ? 'Log in' : 'Sign Up' }</Text>
                     </Pressable>
 
                     <Pressable
