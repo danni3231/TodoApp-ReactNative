@@ -3,12 +3,13 @@ import { todoCardStyles, modalSyles, colors } from '../styles/styles'
 import { DeleteIco, EditIco, EllipsisIco, FlagIco, Separator } from './utils'
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setFormType, setTodoRef, toggleSheetIsOpen } from '../store/todoForm/todoFormSlice';
 import { startDeleteTodo } from '../store/todos/thunks';
 
 export const TodoCard = ({ priority, task, date, time, id }) => {
     const dispatch = useDispatch();
+    const { uid } = useSelector(state => state.auth);
 
     const [ modalVisible, setModalVisible ] = useState(false);
 
@@ -60,7 +61,7 @@ export const TodoCard = ({ priority, task, date, time, id }) => {
                     <Text style={ modalSyles.text }>Edit</Text>
                 </Pressable>
                 <Pressable
-                    onPress={ () => dispatch(startDeleteTodo(id)) }
+                    onPress={ () => dispatch(startDeleteTodo(id, uid)) }
                     onPressOut={ changeVisibility }
                     style={ modalSyles.rowContent }
                 >

@@ -1,8 +1,8 @@
 import { ref, set, get, child, remove } from 'firebase/database';
 import { FirebaseDB } from './firebaseConfig';
 
-export const uploadTodo = async todo => {
-	const todoRef = ref(FirebaseDB, 'todos/' + todo.id);
+export const uploadTodo = async (todo, userId) => {
+	const todoRef = ref(FirebaseDB, `users/${userId}/todos/${todo.id}`);
 
 	await set(todoRef, todo)
 		.then(() => {
@@ -13,17 +13,17 @@ export const uploadTodo = async todo => {
 		});
 };
 
-export const removeTodo = async id => {
-	const todoRef = ref(FirebaseDB, 'todos/' + id);
+export const removeTodo = async (todoID, userId) => {
+	const todoRef = ref(FirebaseDB, `users/${userId}/todos/${todoID}`);
 	await remove(todoRef);
 };
 
-export const getTodos = async () => {
+export const getTodos = async userId => {
 	const dbRef = ref(FirebaseDB);
 
 	let todos = [];
 
-	await get(child(dbRef, 'todos'))
+	await get(child(dbRef, `users/${userId}/todos`))
 		.then(snapshot => {
 			if (snapshot.exists()) {
 				const dbTodos = Object.values(snapshot.val());

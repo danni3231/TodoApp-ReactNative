@@ -13,6 +13,7 @@ import { LoadingScreen } from '../components/utils/LoadingScreen';
 export const HomeScreen = () => {
     const dispatch = useDispatch();
     const { todos, status } = useSelector(state => state.todos);
+    const { uid } = useSelector(state => state.auth);
 
     const isCheckingTodos = useMemo(() => status === 'checking', [ status ])
 
@@ -22,7 +23,7 @@ export const HomeScreen = () => {
     }
 
     useEffect(() => {
-        dispatch(startSetTodos())
+        dispatch(startSetTodos(uid))
     }, [])
 
     return (

@@ -10,6 +10,7 @@ import { toggleSheetIsOpen } from '../store/todoForm/todoFormSlice';
 export const TodoForm = () => {
     const dispatch = useDispatch();
     const { formType, todoRef } = useSelector(state => state.todoForm);
+    const { uid } = useSelector(state => state.auth);
 
     const [ task, setTask ] = useState('');
     const [ priority, setPriority ] = useState('High: 1');
@@ -33,7 +34,7 @@ export const TodoForm = () => {
                     time: date.toLocaleTimeString([], { timeZone: 'America/Bogota', timeStyle: 'short' }),
                     id: Date.now(),
                 }
-                dispatch(startAddTodo(todo))
+                dispatch(startAddTodo(todo, uid))
 
                 break;
 
@@ -43,7 +44,7 @@ export const TodoForm = () => {
                     task,
                     priority,
                 }
-                dispatch(startUpdateTodo(todo))
+                dispatch(startUpdateTodo(todo, uid))
                 break;
         }
 
