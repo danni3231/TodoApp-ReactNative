@@ -3,8 +3,10 @@ import {
 	loginWithEmailPassword,
 	logoutFirebaseAuth,
 	registerUserWithEmailPassword,
+	uploadUser,
 } from '../../Firebase/authProviders';
 import { checkingCredentials, login, logout } from './authSlice';
+
 export const startCreatingUserWithEmailPassword = ({
 	email,
 	password,
@@ -21,6 +23,10 @@ export const startCreatingUserWithEmailPassword = ({
 			});
 
 		if (!ok) return dispatch(logout({ errorMessage }));
+
+		console.log('pass');
+
+		await uploadUser({ uid, displayName, photoURL, email });
 
 		await dispatch(login({ uid, displayName, email, photoURL }));
 		router.replace('/');

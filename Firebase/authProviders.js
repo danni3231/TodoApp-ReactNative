@@ -3,7 +3,20 @@ import {
 	signInWithEmailAndPassword,
 	updateProfile,
 } from 'firebase/auth';
-import { FirebaseAuth } from './firebaseConfig';
+import { FirebaseAuth, FirebaseDB } from './firebaseConfig';
+import { ref, set } from 'firebase/database';
+
+export const uploadUser = async ({ uid, displayName, photoURL, email }) => {
+	const userRef = ref(FirebaseDB, 'users/' + uid);
+
+	await set(userRef, { uid, displayName, photoURL, email })
+		.then(() => {
+			console.log('User added successfully:', displayName);
+		})
+		.catch(error => {
+			console.error('Error adding todo:', error);
+		});
+};
 
 export const registerUserWithEmailPassword = async ({
 	email,
