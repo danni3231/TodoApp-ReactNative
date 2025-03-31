@@ -4,7 +4,7 @@ import {
 	logoutFirebaseAuth,
 	registerUserWithEmailPassword,
 	uploadUser,
-} from '../../Firebase/authProviders';
+} from '../../firebase/authProviders';
 import { checkingCredentials, login, logout } from './authSlice';
 
 export const startCreatingUserWithEmailPassword = ({

@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import React from 'react'
-import { colors } from '../../styles/styles';
+import { colors } from '../../styles';
 
 export const OptionIco = (props) => < Ionicons name="options" size={ 24 } color={ colors.lilac } { ...props } />
 

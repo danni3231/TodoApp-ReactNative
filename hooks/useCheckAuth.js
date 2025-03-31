@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { login } from '../store/auth/authSlice';
 import { onAuthStateChanged } from 'firebase/auth';
-import { FirebaseAuth } from '../Firebase/firebaseConfig';
+import { FirebaseAuth } from '../firebase/firebaseConfig';
 
 export const useCheckAuth = () => {
 	const { status } = useSelector(state => state.auth);

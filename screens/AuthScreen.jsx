@@ -1,10 +1,10 @@
 import { Pressable, Text, View } from 'react-native'
 import { ScreenLayout } from '../components'
-import { authStyles, styles } from '../styles/styles'
 import { TextInput } from 'react-native-gesture-handler'
 import { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { startCreatingUserWithEmailPassword, startLoginWithEmailPassword } from '../store/auth/thunks'
+import { authStyles, styles } from '../styles'
 
 export const AuthScreen = () => {
     const dispatch = useDispatch();
@@ -57,7 +57,7 @@ export const AuthScreen = () => {
             <View style={ authStyles.authContainer }>
                 <View style={ authStyles.formContainer }>
                     <View>
-                        <Text style={ [ styles.title, styles.textCenter ] }>
+                        <Text style={ [ stylesr.title, styles.textCenter ] }>
                             { type === 'login' ? 'Welcome Back!' : 'Create account' }
                         </Text>
                         <Text style={ [ styles.text, styles.textCenter ] }>

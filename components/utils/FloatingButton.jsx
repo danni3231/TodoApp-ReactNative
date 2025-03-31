@@ -1,5 +1,5 @@
 import { Pressable } from 'react-native'
-import { colors, floatingBtnStyles, styles } from '../../styles/styles'
+import { colors, floatingBtnStyles } from '../../styles';
 import { AddIco } from './Icons'
 
 export const FloatingButton = ({ onPressed }) => {

@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from 'react-native'
-import { todoCardStyles, modalSyles, colors } from '../styles/styles'
+import { todoCardStyles, modalSyles, colors } from '../styles'
 import { DeleteIco, EditIco, EllipsisIco, FlagIco, Separator } from './utils'
 import { useState } from 'react';
 

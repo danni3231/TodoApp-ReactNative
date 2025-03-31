@@ -1,4 +1,4 @@
-import { styles } from '../styles/styles'
+import { styles } from '../styles'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export const ScreenLayout = ({ children, props }) => {

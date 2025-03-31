@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const loaderStyle = StyleSheet.create({
+export const loaderStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		width: '100%',

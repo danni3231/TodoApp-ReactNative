@@ -1,6 +1,6 @@
 import { Pressable, Text } from 'react-native'
 import { ScreenLayout } from '../components'
-import { styles } from '../styles/styles'
+import { styles } from '../styles'
 import { useDispatch, useSelector } from 'react-redux';
 import { startLogout } from '../store/auth/thunks';
 import { router } from 'expo-router';

@@ -1,5 +1,5 @@
 import { Pressable, Text, TextInput, View } from 'react-native'
-import { styles } from '../styles/styles'
+import { styles } from '../styles'
 import { Picker } from '@react-native-picker/picker';
 
 import { useEffect, useState } from 'react';
@@ -49,6 +49,8 @@ export const TodoForm = () => {
         }
 
         setFormValid(true)
+        setPriority('High: 1');
+        setTask('');
         dispatch(toggleSheetIsOpen())
     }
 

@@ -4,7 +4,7 @@ import { Link } from 'expo-router';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { BottomSheet, FloatingButton, ScreenLayout, TodoCard, TodoForm, UserIco } from '../components'
-import { styles } from '../styles/styles'
+import { styles } from '../styles'
 
 import { startSetTodos } from '../store/todos/thunks';
 import { setFormType, toggleSheetIsOpen } from '../store/todoForm/todoFormSlice';

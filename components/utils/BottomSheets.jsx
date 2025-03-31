@@ -8,10 +8,10 @@ import Animated, {
     withDelay,
     withTiming,
 } from 'react-native-reanimated';
-import { bottomSheetStyles } from '../../styles/styles';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSheetIsOpen } from '../../store/todoForm/todoFormSlice';
+import { bottomSheetStyles } from '../../styles';
 
 export function BottomSheet ({ /*isOpen, toggleSheet,*/ duration = 500, children }) {
 

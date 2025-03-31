@@ -1,11 +1,11 @@
 import React from 'react'
 import { ActivityIndicator, View } from 'react-native'
-import { colors } from '../../styles/styles'
-import { loaderStyle } from '../../styles'
+import { colors } from '../../styles'
+import { loaderStyles } from '../../styles'
 
 export const LoadingScreen = () => {
     return (
-        <View style={ loaderStyle.container } >
+        <View style={ loaderStyles.container } >
             <ActivityIndicator size='large' color={ colors.lilac } />
         </View>
     )
