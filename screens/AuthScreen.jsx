@@ -57,7 +57,7 @@ export const AuthScreen = () => {
             <View style={ authStyles.authContainer }>
                 <View style={ authStyles.formContainer }>
                     <View>
-                        <Text style={ [ stylesr.title, styles.textCenter ] }>
+                        <Text style={ [ styles.title, styles.textCenter ] }>
                             { type === 'login' ? 'Welcome Back!' : 'Create account' }
                         </Text>
                         <Text style={ [ styles.text, styles.textCenter ] }>
@@ -117,8 +117,6 @@ export const AuthScreen = () => {
 
 
             </View>
-
-
 
         </ScreenLayout >
     )

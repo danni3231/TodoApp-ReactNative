@@ -3,9 +3,11 @@ import {
 	loginWithEmailPassword,
 	logoutFirebaseAuth,
 	registerUserWithEmailPassword,
+	updateUserProfilePhoto,
 	uploadUser,
 } from '../../firebase/authProviders';
-import { checkingCredentials, login, logout } from './authSlice';
+import { checkingCredentials, login, logout, setPhotoURL } from './authSlice';
+import { uploadProfilePhoto } from '../../firebase/storageProvider';
 
 export const startCreatingUserWithEmailPassword = ({
 	email,
@@ -51,5 +53,13 @@ export const startLogout = () => {
 	return async dispatch => {
 		await logoutFirebaseAuth();
 		dispatch(logout());
+	};
+};
+
+export const startUploadProfilePhoto = (uri, userId) => {
+	return async dispatch => {
+		const photoURL = await uploadProfilePhoto(uri, userId);
+		dispatch(setPhotoURL(photoURL));
+		dispatch(updateUserProfilePhoto(photoURL));
 	};
 };

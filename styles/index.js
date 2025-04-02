@@ -4,5 +4,6 @@ export * from './colors';
 export * from './floatingBtnStyles';
 export * from './loaderStyle';
 export * from './modalStyles';
+export * from './profileStyles';
 export * from './styles';
 export * from './todoCardStyles';

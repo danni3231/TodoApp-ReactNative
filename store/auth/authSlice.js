@@ -31,7 +31,12 @@ export const authSlice = createSlice({
 		checkingCredentials: state => {
 			state.status = 'checking';
 		},
+		setPhotoURL: (state, { payload }) => {
+			state.photoURL = payload;
+			console.log(state.photoURL);
+		},
 	},
 });
 
-export const { login, logout, checkingCredentials } = authSlice.actions;
+export const { login, logout, checkingCredentials, setPhotoURL } =
+	authSlice.actions;

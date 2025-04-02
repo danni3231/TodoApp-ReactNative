@@ -1,6 +1,7 @@
 import React from 'react'
 import { useCheckAuth } from '../../hooks/useCheckAuth'
 import { Redirect, Stack } from 'expo-router'
+import { colors, styles } from '../../styles'
 
 const AppLayout = () => {
     const status = useCheckAuth()
@@ -12,7 +13,10 @@ const AppLayout = () => {
     return (
         <Stack
             screenOptions={ {
-                headerShown: false
+                headerStyle: { backgroundColor: colors.eerieBlack },
+                headerTintColor: colors.royalPurple,
+                headerTitleStyle: styles.title,
+                headerShown: false,
             } }
         />
     )

@@ -18,6 +18,10 @@ export const uploadUser = async ({ uid, displayName, photoURL, email }) => {
 		});
 };
 
+export const updateUserProfilePhoto = photoURL => {
+	updateProfile(FirebaseAuth.currentUser, { photoURL });
+};
+
 export const registerUserWithEmailPassword = async ({
 	email,
 	password,
