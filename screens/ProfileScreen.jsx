@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { EditIco, ScreenLayout, UserIco } from '../components'
 import { styles, profileStyles, colors } from '../styles'
 
-import { startLogout, startUploadProfilePhoto } from '../store/auth/thunks';
+import { startLogout, startUploadProfilePhoto, startDeletingUser } from '../store/auth/thunks';
 import { cleanTodos } from '../store/todos/todoSlice';
 
 export const ProfileScreen = () => {
@@ -16,6 +16,12 @@ export const ProfileScreen = () => {
 
     const onLogout = () => {
         dispatch(startLogout());
+        dispatch(cleanTodos());
+        router.replace('/auth');
+    }
+
+    const onDeleteAccount = () => {
+        dispatch(startDeletingUser());
         dispatch(cleanTodos());
         router.replace('/auth');
     }
@@ -66,13 +72,21 @@ export const ProfileScreen = () => {
 
                 </View>
 
+                <View style={ {width:'100%', alignItems: 'center', gap: 16 } }>
+                    <Pressable
+                        style={ styles.button }
+                        onPress={ onLogout }
+                    >
+                        <Text style={ styles.buttonText }>Logout</Text>
+                    </Pressable>
 
-                <Pressable
-                    style={ styles.button }
-                    onPress={ onLogout }
-                >
-                    <Text style={ styles.buttonText }>logout</Text>
-                </Pressable>
+                    <Pressable
+                        style={ [ styles.button, styles.buttonDelete ] }
+                        onPress={ onDeleteAccount }
+                    >
+                        <Text style={ styles.buttonText }>Delete account</Text>
+                    </Pressable>
+                </View>
 
             </View>
 

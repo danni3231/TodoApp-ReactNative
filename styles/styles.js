@@ -54,6 +54,9 @@ export const styles = StyleSheet.create({
 		padding: 12,
 		borderRadius: 8,
 	},
+	buttonDelete: {
+		backgroundColor: colors.red,
+	},
 	buttonText: {
 		color: colors.cultured,
 		fontSize: 16,

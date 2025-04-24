@@ -2,6 +2,7 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	updateProfile,
+    deleteUser
 } from 'firebase/auth';
 import { FirebaseAuth, FirebaseDB } from './firebaseConfig';
 import { ref, set } from 'firebase/database';
@@ -53,6 +54,25 @@ export const registerUserWithEmailPassword = async ({
 			errorMessage,
 		};
 	}
+};
+
+export const deleteCurrentUser = async () => {
+    try {
+        const user = FirebaseAuth.currentUser;
+        await deleteUser(user);
+
+        return {
+            ok: true,
+            message: 'User deleted successfully',
+        }
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        return {
+            ok: false,
+            errorMessage,
+        };
+    }
 };
 
 export const loginWithEmailPassword = async ({ email, password }) => {

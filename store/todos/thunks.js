@@ -1,4 +1,4 @@
-import { removeTodo, getTodos, uploadTodo } from '../../firebase/todoProvider';
+import { removeTodo, getTodos, uploadTodo } from '../../Firebase/todoProvider';
 import {
 	addTodo,
 	deleteTodo,

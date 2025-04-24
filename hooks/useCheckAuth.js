@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { login } from '../store/auth/authSlice';
 import { onAuthStateChanged } from 'firebase/auth';
-import { FirebaseAuth } from '../firebase/firebaseConfig';
+import { FirebaseAuth } from '../Firebase/firebaseConfig';
 import { router } from 'expo-router';
 
 export const useCheckAuth = () => {

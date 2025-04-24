@@ -5,9 +5,10 @@ import {
 	registerUserWithEmailPassword,
 	updateUserProfilePhoto,
 	uploadUser,
-} from '../../firebase/authProviders';
+    deleteCurrentUser
+} from '../../Firebase/authProviders';
 import { checkingCredentials, login, logout, setPhotoURL } from './authSlice';
-import { uploadProfilePhoto } from '../../firebase/storageProvider';
+import { uploadProfilePhoto } from '../../Firebase/storageProvider';
 
 export const startCreatingUserWithEmailPassword = ({
 	email,
@@ -34,6 +35,18 @@ export const startCreatingUserWithEmailPassword = ({
 		router.replace('/');
 	};
 };
+
+export const startDeletingUser = () => {
+    return async dispatch => {
+        const {ok, message} = await deleteCurrentUser();
+
+        if (ok) {
+            return dispatch(logout());
+        }
+
+        console.log(message);
+    };
+}
 
 export const startLoginWithEmailPassword = ({ email, password }) => {
 	return async dispatch => {
