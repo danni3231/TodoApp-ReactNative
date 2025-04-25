@@ -31,6 +31,26 @@ exports.sendByeEmail = functions.auth.user().onDelete(user => {
 	return sendGoodbyeEmail(email, displayName);
 });
 
+exports.sendProfileUploadEmail = functions.storage.object().onFinalize(async object => {
+	const filePath = object.name || '';
+
+	if (!filePath.startsWith('profile-photo/')) return;
+
+	const uid = filePath.split('/')[1].split('.')[0];
+    const bucketName = object.bucket;
+    const encodedFilePath = encodeURIComponent(filePath);
+    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodedFilePath}?alt=media`;
+
+	try {
+		const userInfo = await admin.auth().getUser(uid);
+		const userEmail = userInfo.email;
+
+		return sendProfileUploadEmail(userEmail, userInfo.displayName, fileUrl);
+	} catch (error) {
+		functions.logger.error('Error sending email with uploaded photo:', error);
+	}
+});
+
 async function sendWelcomeEmail(email, displayName) {
 	const mailOptions = {
 		from: `${APP_NAME} <noreply@gmail.com>`,
@@ -47,14 +67,30 @@ async function sendWelcomeEmail(email, displayName) {
 }
 
 async function sendGoodbyeEmail(email, displayName) {
-    const mailOptions = {
-      from: `${APP_NAME} <noreply@gmail.com>`,
-      to: email,
-    };
-  
-    mailOptions.subject = `Bye!`;
-    mailOptions.text = `Hey ${displayName || ''}!, We confirm that we have deleted your ${APP_NAME} account.`;
+	const mailOptions = {
+		from: `${APP_NAME} <noreply@gmail.com>`,
+		to: email,
+	};
+
+	mailOptions.subject = `Bye!`;
+	mailOptions.text = `Hey ${
+		displayName || ''
+	}!, We confirm that we have deleted your ${APP_NAME} account.`;
+	await mailTransport.sendMail(mailOptions);
+	functions.logger.log('Account deletion confirmation email sent to:', email);
+	return null;
+}
+
+async function sendProfileUploadEmail(email, displayName, photoURL) {
+	const mailOptions = {
+		from: `${APP_NAME} <noreply@gmail.com>`,
+		to: email,
+	};
+
+	mailOptions.subject = `Profile photo update!`;
+	mailOptions.text = `Hey ${ displayName || 'user' }!, Your profile picture has been successfully uploaded. You can see it here.: ${photoURL}`;
+	
     await mailTransport.sendMail(mailOptions);
-    functions.logger.log('Account deletion confirmation email sent to:', email);
-    return null;
-  }
+	functions.logger.log('Update profile photo email sent to:', email);
+	return null;
+}
