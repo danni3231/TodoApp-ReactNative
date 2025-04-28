@@ -106,6 +106,18 @@ exports.countTodosPerUser = functions.database
 		}
 	});
 
+/* exports.scheduledFunction = functions.pubsub
+	.schedule('0 2 * * *')
+	.timeZone('UTC')
+	.onRun(async context => {
+
+
+		functions.logger.info(
+			'Tarea programada ejecutada - limpieza de TODOs completados'
+		);
+		
+	}); */
+
 async function sendWelcomeEmail(email, displayName) {
 	const mailOptions = {
 		from: `${APP_NAME} <noreply@gmail.com>`,
